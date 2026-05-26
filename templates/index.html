@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF AI Assistant</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>📄 PDF AI</h2>
+            <p>RAG Assistant</p>
+        </div>
+
+        <div class="sidebar-section">
+
+            <h3>Current PDF</h3>
+
+            <div id="pdfCard" class="pdf-card">
+
+                <div id="pdfName">
+                    No PDF Uploaded
+                </div>
+
+                <div class="pdf-actions">
+
+                    <button
+                        id="removePdfBtn"
+                        class="danger-btn">
+
+                        Remove
+                    </button>
+
+                    <button
+                        id="openPdfBtn"
+                        class="secondary-btn">
+
+                        Open PDF
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sidebar-section">
+
+            <h3>Document Stats</h3>
+
+            <div class="stats-grid">
+
+                <div class="stat-box">
+
+                    <span class="stat-label">
+                        Pages
+                    </span>
+
+                    <span
+                    id="pagesCount"
+                    class="stat-value">
+
+                    0
+
+                    </span>
+
+                </div>
+
+                <div class="stat-box">
+
+                    <span class="stat-label">
+                        Words
+                    </span>
+
+                    <span
+                    id="wordsCount"
+                    class="stat-value">
+
+                    0
+
+                    </span>
+
+                </div>
+
+                <div class="stat-box">
+
+                    <span class="stat-label">
+                        Chunks
+                    </span>
+
+                    <span
+                    id="chunksCount"
+                    class="stat-value">
+
+                    0
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sidebar-section">
+
+            <div
+            class="recent-header"
+            onclick="toggleRecentQuestions()">
+
+                <h3>
+                    Recent Questions
+                </h3>
+
+                <span id="recentArrow">
+                    ▼
+                </span>
+
+            </div>
+
+            <div
+            id="recentQuestions"
+            class="recent-list hidden">
+
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <div class="hero">
+
+            <h1>
+                AI Powered PDF Assistant
+            </h1>
+
+            <p>
+                Upload a PDF once and ask unlimited questions.
+            </p>
+
+        </div>
+
+        <!-- UPLOAD CARD -->
+
+        <div class="card">
+
+            <h2>
+                Upload Document
+            </h2>
+
+            <div class="upload-area">
+
+                <input
+                    type="file"
+                    id="pdfFile"
+                    accept=".pdf">
+
+                <button
+                    id="uploadBtn"
+                    class="primary-btn">
+
+                    Upload PDF
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- SUGGESTIONS -->
+
+        <div class="card">
+
+            <h2>
+                Suggested Questions
+            </h2>
+
+            <div class="suggestions-grid">
+
+                <button class="suggestion-btn">
+                    Summarize this document
+                </button>
+
+                <button class="suggestion-btn">
+                    What is the main objective?
+                </button>
+
+                <button class="suggestion-btn">
+                    What are the key findings?
+                </button>
+
+                <button class="suggestion-btn">
+                    What recommendations are mentioned?
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- QUESTION CARD -->
+
+        <div class="card">
+
+            <h2>
+                Ask a Question
+            </h2>
+
+            <div class="question-section">
+
+                <textarea
+                    id="questionInput"
+                    rows="4"
+                    placeholder="Ask anything about the uploaded PDF...">
+                </textarea>
+
+                <button
+                    id="askBtn"
+                    class="primary-btn">
+
+                    Ask Question
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ANSWER -->
+
+        <div
+        id="answerCard"
+        class="card hidden">
+
+            <h2>
+                Answer
+            </h2>
+
+            <div
+            id="answerText"
+            class="answer-text">
+
+            </div>
+
+        </div>
+
+        <!-- SOURCE -->
+
+        <div
+        id="sourceCard"
+        class="card hidden">
+
+            <h2>
+                Source
+            </h2>
+
+            <div class="source-container">
+
+                <span
+                id="sourcePage"
+                class="source-badge">
+
+                Page 0
+
+                </span>
+
+                <button
+                id="openSourceBtn"
+                class="secondary-btn">
+
+                Open PDF
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static',
+filename='script.js') }}">
+</script>
+
+</body>
+
+</html>
