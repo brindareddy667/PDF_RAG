@@ -1,4 +1,4 @@
-from PyPDF2 import PdfReader
+import fitz
 
 
 def extract_pdf_text(pdf_path):
@@ -6,18 +6,14 @@ def extract_pdf_text(pdf_path):
     Extract text page-wise from PDF
     """
 
-    reader = PdfReader(pdf_path)
+    doc = fitz.open(pdf_path)
 
     pages = []
-
     full_text = ""
 
-    for i, page in enumerate(reader.pages):
+    for i, page in enumerate(doc):
 
-        text = page.extract_text()
-
-        if text is None:
-            text = ""
+        text = page.get_text()
 
         pages.append(
             {
@@ -27,5 +23,7 @@ def extract_pdf_text(pdf_path):
         )
 
         full_text += text + "\n"
+
+    doc.close()
 
     return full_text, pages
