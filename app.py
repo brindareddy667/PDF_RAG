@@ -14,7 +14,8 @@ from utils.chunker import create_chunks
 from utils.embeddings import generate_embeddings
 from utils.retriever import retrieve_context
 from utils.generator import generate_answer
-
+import pkgutil
+print(sorted([m.name for m in pkgutil.iter_modules()]))
 
 app = Flask(__name__)
 
@@ -399,7 +400,9 @@ def recent():
 # ===================================
 
 if __name__ == "__main__":
+    import os
 
     app.run(
-        debug=True
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000))
     )
