@@ -1,6 +1,6 @@
 Flask
-PyMuPDF
-numpy
+PyPDF2
 google-genai
 python-dotenv
+numpy
 gunicorn
