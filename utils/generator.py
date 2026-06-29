@@ -1,52 +1,45 @@
-import requests
+import os
 
+from google import genai
+from dotenv import load_dotenv
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "gemma3:1b"
+load_dotenv()
+
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
 
 
 def generate_answer(question, context):
-    """
-    Generate grounded answer from retrieved context.
-    """
 
     prompt = f"""
 You are a PDF Question Answering Assistant.
 
 Rules:
+
 1. Answer ONLY using the provided context.
-2. If the answer is not present in the context, say:
-   "I couldn't find sufficient information in the uploaded document."
-3. Do not make up information.
-4. Give detailed answers when information exists.
-5. Use complete sentences and proper formatting.
+2. If the answer is not present, reply:
+
+"I couldn't find sufficient information in the uploaded document."
+
+3. Never hallucinate.
+4. Be detailed.
+5. Use markdown formatting.
 
 CONTEXT:
+
 {context}
 
 QUESTION:
+
 {question}
 
 ANSWER:
 """
 
-    try:
-        response = requests.post(
-            OLLAMA_URL,
-            json={
-                "model": MODEL_NAME,
-                "prompt": prompt,
-                "stream": False
-            },
-            timeout=120
-        )
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
 
-        data = response.json()
-
-        if "response" in data:
-            return data["response"].strip()
-
-        return "Unable to generate answer."
-
-    except Exception as e:
-        return f"Error generating answer: {str(e)}"
+    return response.text

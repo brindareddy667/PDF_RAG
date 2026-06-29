@@ -1,7 +1,6 @@
-flask
-pymupdf
-sentence-transformers
-faiss-cpu
-transformers
-torch
+Flask
+PyMuPDF
 numpy
+google-genai
+python-dotenv
+gunicorn

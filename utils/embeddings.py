@@ -1,21 +1,28 @@
-from sentence_transformers import SentenceTransformer
+import os
 
+from google import genai
+from dotenv import load_dotenv
 
-model = SentenceTransformer(
-    "sentence-transformers/all-MiniLM-L6-v2"
+load_dotenv()
+
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
 
 def generate_embeddings(chunks):
 
-    texts = [
-        chunk["text"]
-        for chunk in chunks
-    ]
+    embeddings = []
 
-    embeddings = model.encode(
-        texts,
-        show_progress_bar=False
-    )
+    for chunk in chunks:
+
+        response = client.models.embed_content(
+            model="gemini-embedding-001",
+            contents=chunk["text"]
+        )
+
+        embeddings.append(
+            response.embeddings[0].values
+        )
 
     return embeddings
